@@ -23,8 +23,8 @@ public class CozyCone {
 
 	}
 
-	public void calcularDiaria(Usuario usuario) {
-		listaDeQuartos.get(usuario).calculaValor();
+	public int calcularDiaria(Usuario usuario) {
+		return listaDeQuartos.get(usuario).calculaValor();
 	}
 
 	public void checkIn(Usuario usuario,Quarto quarto) {
@@ -33,12 +33,17 @@ public class CozyCone {
 			listaDeQuartos.put(usuario, quarto);
 		// else add lista de espera.
 	}
+	
+	public void checkOut(Usuario usuario) {
+		listaDeQuartos.remove(usuario);
+		//avisar e add lista de espera.
+	}
 
 	public double realizarFesta(Usuario usuario) {
 		if (listaDeQuartos.get(usuario) instanceof Cone)
-			return listaDeQuartos.get(usuario).calculaValor() * 1.40;
+			return this.calcularDiaria(usuario) * 1.40;
 		else if (listaDeQuartos.get(usuario) instanceof ConeComVaranda)
-			return listaDeQuartos.get(usuario).calculaValor() * 1.30;
+			return this.calcularDiaria(usuario) * 1.30;
 		return 0;
 	}
 }
