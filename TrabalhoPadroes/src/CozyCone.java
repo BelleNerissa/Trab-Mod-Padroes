@@ -1,25 +1,32 @@
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class CozyCone {
-	public static final CozyCone INSTANCE = new CozyCone();
-	public static final int QUANTIDADE_DE_QUARTOS = 20;
 
-	private ListaDeEspera listaDeEspera;
+	public static final CozyCone INSTANCE = new CozyCone();
+	public static final int QUANTIDADE_DE_QUARTOS = 1;
+	private ListaDeEspera listaDeEspera = new ListaDeEspera();
+	
+	private Map<Usuario,Quarto> mapEspera = new LinkedHashMap<Usuario,Quarto>();
 	private Map<Usuario, Quarto> listaDeQuartos = new LinkedHashMap<Usuario, Quarto>();
-	private List<String> a;
 
 	public CozyCone getInstance() {
 		return INSTANCE;
 	}
+	
 
-	private CozyCone() {
-
+	public void gerarPlaca() {
+		new PlacaObserver(listaDeEspera);
+		listaDeEspera.setState(1);
 	}
 
-	public void update() {
+	
+	
+
+	private CozyCone() {
 
 	}
 
@@ -28,24 +35,48 @@ public class CozyCone {
 		return usuarios.stream().count();
 	}
 
-	public double calcularDiaria(Usuario usuario) {
+	private double calcularDiaria(Usuario usuario) {
 		return listaDeQuartos.get(usuario).calculaValor();
 	}
 
 	public void checkIn(Usuario usuario, Quarto quarto) {
 		if (this.quartosOcupados() < QUANTIDADE_DE_QUARTOS)
 			listaDeQuartos.put(usuario, quarto);
-		// else add lista de espera.
+		else {
+			this.addListaDeEspera(usuario, quarto);
+			listaDeEspera.setState(0);
+		}
 	}
+	
+	private void addListaDeEspera(Usuario usuario, Quarto quarto) {
+		mapEspera.put(usuario, quarto);
+		new Usuario(usuario.getNome(), usuario.getCpf(), listaDeEspera);
+	} 
+	
 
 	public double checkOut(Usuario usuario, int dias) {
 		if (listaDeQuartos.get(usuario) != null) {
-			double diaria = listaDeQuartos.get(usuario).calculaValor();
+			double diaria = this.calcularDiaria(usuario);
 			listaDeQuartos.remove(usuario);
+			if (this.quartosOcupados() == (QUANTIDADE_DE_QUARTOS - 1) && !mapEspera.isEmpty()) {
+				listaDeEspera.setState(1);
+				this.removeListaDeEspera();
+				listaDeEspera.setState(0);
+			} else
+				listaDeEspera.setState(1);
 			return diaria * dias;
-			// avisar e add lista de espera.
 		} else
 			return 0;
+	}
+	
+	private void removeListaDeEspera() {
+		listaDeEspera.removeObserver();
+		Set<Usuario> s = mapEspera.keySet();
+		List<Usuario> l = new ArrayList<Usuario>();
+		for(Usuario u: s) {
+			l.add(u);
+		}
+		listaDeQuartos.put(l.remove(0), mapEspera.remove(s));
 	}
 
 	public double realizarFesta(Usuario usuario) {
