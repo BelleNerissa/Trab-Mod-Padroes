@@ -7,7 +7,7 @@ public class CafeDaManha extends Decorator{
 	}
 
 	@Override
-	public int calculaValor() {
+	public double calculaValor() {
 		return quarto.calculaValor() +20;
 	}
 }

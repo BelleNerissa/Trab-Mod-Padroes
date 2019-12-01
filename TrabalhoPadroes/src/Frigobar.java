@@ -6,7 +6,7 @@ public class Frigobar extends Decorator {
 		this.quarto = quarto;
 	}
 	@Override
-	public int calculaValor() {
+	public double calculaValor() {
 		return quarto.calculaValor() + 40;
 	}
 	

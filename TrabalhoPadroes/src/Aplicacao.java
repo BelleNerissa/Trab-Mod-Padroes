@@ -17,7 +17,8 @@ public class Aplicacao {
 		hotel.checkIn(u2, q2);
 		System.out.println(hotel.calcularDiaria(u1));
 		System.out.println(hotel.calcularDiaria(u2));
-		
+		System.out.println(hotel.checkOut(u1, 2));
+		System.out.println(hotel.realizarFesta(u1));
 	}
 
 }

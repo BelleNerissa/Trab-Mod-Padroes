@@ -1,4 +1,4 @@
 
 public interface Quarto {
-	public int calculaValor();
+	public double calculaValor();
 }

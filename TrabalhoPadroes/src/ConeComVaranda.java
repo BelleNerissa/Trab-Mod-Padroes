@@ -2,7 +2,7 @@
 public class ConeComVaranda implements Quarto {
 
 	@Override
-	public int calculaValor() {
+	public double calculaValor() {
 		return 620;
 	}
 

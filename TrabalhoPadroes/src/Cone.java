@@ -3,7 +3,7 @@ public class Cone implements Quarto {
 	private double valor;
 
 	@Override
-	public int calculaValor() {
+	public double calculaValor() {
 		return 480;
 	}
 } 

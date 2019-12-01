@@ -8,7 +8,7 @@ public class SPA extends Decorator {
 	}
 	
 	@Override
-	public int calculaValor() {
+	public double calculaValor() {
 		return quarto.calculaValor() + 120;
 	}
 	
