@@ -22,14 +22,18 @@ public class CozyCone {
 	public void update() {
 
 	}
+	
+	public long quartosOcupados() {
+		Set<Usuario> usuarios = listaDeQuartos.keySet();
+		return usuarios.stream().count();
+	}
 
 	public double calcularDiaria(Usuario usuario) {
 		return listaDeQuartos.get(usuario).calculaValor();
 	}
 
 	public void checkIn(Usuario usuario,Quarto quarto) {
-		Set<Usuario> usuarios = listaDeQuartos.keySet();
-		if (usuarios.stream().count() < QUANTIDADE_DE_QUARTOS)
+		if (this.quartosOcupados() < QUANTIDADE_DE_QUARTOS)
 			listaDeQuartos.put(usuario, quarto);
 		// else add lista de espera.
 	}
@@ -48,4 +52,13 @@ public class CozyCone {
 			return this.calcularDiaria(usuario) * 1.30;
 		return 0;
 	}
+	
+	@Override
+	public String toString() {
+		return "aa";
+	}
+	
+	
+	
+	
 }
