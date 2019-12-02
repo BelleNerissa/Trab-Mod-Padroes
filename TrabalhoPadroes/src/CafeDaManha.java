@@ -10,4 +10,9 @@ public class CafeDaManha extends Decorator{
 	public double calculaValor() {
 		return quarto.calculaValor() +20;
 	}
+
+	@Override
+	public double calculaValorFesta() {
+		return quarto.calculaValorFesta() + 20;
+	}
 }

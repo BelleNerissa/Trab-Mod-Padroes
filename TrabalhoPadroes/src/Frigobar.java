@@ -9,5 +9,9 @@ public class Frigobar extends Decorator {
 	public double calculaValor() {
 		return quarto.calculaValor() + 40;
 	}
+	@Override
+	public double calculaValorFesta() {
+		return quarto.calculaValorFesta() + 40;
+	}
 	
 }

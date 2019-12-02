@@ -11,5 +11,12 @@ public class SPA extends Decorator {
 	public double calculaValor() {
 		return quarto.calculaValor() + 120;
 	}
+
+	@Override
+	public double calculaValorFesta() {
+		return quarto.calculaValorFesta() + 120;
+	}
+
+	
 	
 }

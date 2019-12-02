@@ -7,7 +7,7 @@ import java.util.Set;
 public class CozyCone {
 
 	public static final CozyCone INSTANCE = new CozyCone();
-	public static final int QUANTIDADE_DE_QUARTOS = 1;
+	public static final int QUANTIDADE_DE_QUARTOS = 5;
 	private ListaDeEspera listaDeEspera = new ListaDeEspera();
 	
 	private Map<Usuario,Quarto> mapEspera = new LinkedHashMap<Usuario,Quarto>();
@@ -38,6 +38,10 @@ public class CozyCone {
 	private double calcularDiaria(Usuario usuario) {
 		return listaDeQuartos.get(usuario).calculaValor();
 	}
+	
+	private double calcularDiariaFesta(Usuario usuario) {
+		return listaDeQuartos.get(usuario).calculaValorFesta();
+	}
 
 	public void checkIn(Usuario usuario, Quarto quarto) {
 		if (this.quartosOcupados() < QUANTIDADE_DE_QUARTOS)
@@ -54,9 +58,10 @@ public class CozyCone {
 	} 
 	
 
-	public double checkOut(Usuario usuario, int dias) {
+	public double checkOut(Usuario usuario, int dias ,int festas) {
 		if (listaDeQuartos.get(usuario) != null) {
 			double diaria = this.calcularDiaria(usuario);
+			double diariaComFestas = this.calcularDiariaFesta(usuario);
 			listaDeQuartos.remove(usuario);
 			if (this.quartosOcupados() == (QUANTIDADE_DE_QUARTOS - 1) && !mapEspera.isEmpty()) {
 				listaDeEspera.setState(1);
@@ -64,7 +69,7 @@ public class CozyCone {
 				listaDeEspera.setState(0);
 			} else
 				listaDeEspera.setState(1);
-			return diaria * dias;
+			return (diaria * (dias-festas)) + (diariaComFestas * festas);
 		} else
 			return 0;
 	}
@@ -78,13 +83,12 @@ public class CozyCone {
 		}
 		listaDeQuartos.put(l.remove(0), mapEspera.remove(s));
 	}
-
-	public double realizarFesta(Usuario usuario) {
-		if (listaDeQuartos.get(usuario) instanceof Cone)
-			return this.calcularDiaria(usuario) * 1.40;
-		else if (listaDeQuartos.get(usuario) instanceof ConeComVaranda)
-			return this.calcularDiaria(usuario) * 1.30;
-		return 0;
+	
+	public boolean temReserva(Usuario usuario) {
+		if(listaDeQuartos.get(usuario) != null)
+			return true;
+		return false;
 	}
+
 
 }
